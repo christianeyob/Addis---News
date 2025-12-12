@@ -128,8 +128,11 @@ export default function Nav() {
                                     {item.href ? (
                                         <>
                                             <NavigationMenuLink className="font-medium text-md">
-                                                    <Button variant="ghost" className="font-medium text-md">{item.title}</Button>
-                                            </NavigationMenuLink>
+                                                <Link href={item.href}>
+                                                    <Button variant="ghost" className="font-medium text-md">
+                                                        {item.title}
+                                                    </Button>
+                                                </Link>                                            </NavigationMenuLink>
                                         </>
                                     ) : (
                                         <>
