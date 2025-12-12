@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Article {
+  id          Int              @id @default(autoincrement())
+  title       String
+  author      String
+  date        DateTime?
+  imageUrl    String?
+  content     String
+  url         String            @unique
+  categories   ArticleCategory[] // Relation to ArticleCategories
+  comments     Comment[]         // Relation to Comments
+}
+
+model Category {
+  id        Int              @id @default(autoincrement())
+  name      String           @unique // Each category name should be unique
+  articles  ArticleCategory[] // Relation to ArticleCategories
+}
+
+model ArticleCategory {
+  articleId Int
+  categoryId Int
+  article   Article   @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  category  Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  @@id([articleId, categoryId]) // Composite primary key
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  content   String   @db.Text
+  articleId Int
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  parentId  Int?     // Add this field to reference the parent comment
+  parent    Comment? @relation("CommentToComment", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction) // Relation to the parent comment (nullable)
+  replies   Comment[]  @relation("CommentToComment") // Relation to child comments
+}
+
+model Subscription {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique // Store unique email addresses
+  createdAt DateTime @default(now())
+}
+model Contact {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+}
