@@ -1,6 +1,6 @@
 # Addis News - Frontend
 
-Next.js app with Prisma, shadcn/ui, Framer Motion. Connects to NestJS backend APIs. Uses Neon serverless PostgreSQL.
+Next.js app with Prisma, Neon, shadcn/ui, Framer Motion.
 
 ## Tech
 - Next.js 14
@@ -17,5 +17,6 @@ Next.js app with Prisma, shadcn/ui, Framer Motion. Connects to NestJS backend AP
 
 ## Setup
 npm install
-cp .env.example .env.local
+create .env in the root folder and add your database url
 npm run dev
+
